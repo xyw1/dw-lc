@@ -151,3 +151,120 @@ class Solution(object):
         return sorted(nums,reverse=True)[k-1]
 ```
 
+
+
+
+
+解法1:
+
+执行用时：28 ms, 在所有 Python 提交中击败了100.00%的用户
+
+内存消耗：20.8 MB, 在所有 Python 提交中击败了69.15%的用户
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        return sorted(nums)
+```
+
+
+
+解法2:
+
+执行用时：372 ms, 在所有 Python 提交中击败了38.59%的用户
+
+内存消耗：22.1 MB, 在所有 Python 提交中击败了9.83%的用户
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        def sort(nums):
+            if len(nums)==1:
+                return nums
+            n = len(nums)/2
+            part1 = nums[:n]
+            part2 = nums[n:]
+            return merge(sort(part1),sort(part2))
+           
+        def merge(L1,L2):
+            i = 0
+            j = 0
+            L = []
+            while True:
+                if L1[i]<L2[j]:
+                    L.append(L1[i])
+                    i+=1
+                elif L1[i]>L2[j]:
+                    L.append(L2[j])
+                    j+=1
+                elif L1[i]==L2[j]:
+                    L.append(L1[i])
+                    L.append(L2[j])
+                    i+=1
+                    j+=1
+                if not(i<len(L1) and j<len(L2)):
+                    if i==len(L1):
+                        L+=L2[j:]
+                    if j==len(L2):
+                        L+=L1[i:]
+                    break
+            return L
+        return sort(nums)
+```
+
+
+
+解法3:
+
+执行用时：6528 ms, 在所有 Python 提交中击败了5.06%的用户
+
+内存消耗：21.6 MB, 在所有 Python 提交中击败了19.85%的用户
+
+
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        def sort(nums):
+            if len(nums)==1:
+                return nums
+            n = len(nums)/2
+            part1 = nums[:n]
+            part2 = nums[n:]
+            return merge(sort(part1),sort(part2))
+           
+        def merge(L1,L2):
+            L = []
+            while L1!=[] and L2!=[]:
+                if L1[0]<L2[0]:
+                    L.append(L1[0])
+                    L1.pop(0)
+                elif L1[0]>L2[0]:
+                    L.append(L2[0])
+                    L2.pop(0)
+                elif L1[0]==L2[0]:
+                    L.append(L1[0])
+                    L.append(L2[0])
+                    L1.pop(0)
+                    L2.pop(0)
+                
+            if L1==[]:
+                L+=L2
+            if L2==[]:
+                L+=L1
+            return L
+        return sort(nums)
+```
+
