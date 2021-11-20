@@ -268,3 +268,69 @@ class Solution(object):
         return sort(nums)
 ```
 
+
+
+# 快速排序
+
+in-place partition
+
+1. left为最左，right为最右，patition_index=left
+2. 把pivot元素放到最末尾
+3. 从最左边的元素开始：
+   1. 如果元素比pivot小：
+      1. 交换patition_index和当前元素的值
+      2. patition_index+=1
+4. 交换patition_index和right(pivot的暂存位置)
+
+![quick_sort_partition](/Users/yunwanxu/git/dw-lc/quick_sort_partition.gif)
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        from random import randint
+
+        def sort(L,left,right):
+            if right-left<1:
+                return 
+            else:
+                pivot_index = randint(left,right)
+                patition_index = partition(L,left,right,pivot_index)
+                #print(pivot_index,patition_index,L[:patition_index],L[patition_index+1:])
+                sort(L,left,patition_index-1);#print(L,left,patition_index)
+                sort(L,patition_index,right)
+                return 
+
+        def swap(L,i,j):
+                tmp = L[i]
+                L[i] = L[j]
+                L[j] = tmp
+
+        def partition(L,left,right,pivot_index):
+                #left,right = 0,len(L)-1
+                patition_index   = left
+                swap(L,pivot_index,right)
+               # print('1:',L)
+                pivot = L[right]
+               # print('pivot:',pivot)
+                for i in range(left,right):
+                    #print()
+                    if L[i]<=pivot:
+                        
+                        swap(L,patition_index,i)
+                        patition_index+=1
+                #        print('i:',i,L,patition_index)
+                #patition_index += 1
+               # print(L,patition_index,right)
+                swap(L,patition_index,right)
+                #print(f'partition pivot:{pivot},patition_index:{patition_index},List:{L[left:right+1]}')
+                return patition_index
+
+        sort(nums,0,len(nums)-1)
+        return nums
+    
+```
+
