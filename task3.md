@@ -115,7 +115,7 @@ class Solution(object):
         return nums
 ```
 
-
+# 
 
 #### [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
@@ -142,16 +142,42 @@ class Solution(object):
 
 ```python
 class Solution(object):
-    def findKthLargest(self, nums, k):
+    def sortArray(self, nums):
         """
         :type nums: List[int]
-        :type k: int
-        :rtype: int
+        :rtype: List[int]
         """
-        return sorted(nums,reverse=True)[k-1]
+        return sorted(nums,revered=True)[k-1]
+```
+
+# 归并排序
+
+#### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+给你一个整数数组 nums，请你将该数组升序排列。
+
+
+
+示例 1：
+
+```
+输入：nums = [5,2,3,1]
+输出：[1,2,3,5]
 ```
 
 
+示例 2：
+
+```
+输入：nums = [5,1,1,2,0,0]
+输出0,0,1,1,2,5]
+```
+
+
+提示：
+
+`1 <= nums.length <= 50000`
+`-50000 <= nums[i] <= 50000`
 
 
 
@@ -282,7 +308,42 @@ in-place partition
       2. patition_index+=1
 4. 交换patition_index和right(pivot的暂存位置)
 
-![quick_sort_partition](/Users/yunwanxu/git/dw-lc/quick_sort_partition.gif)
+![](/Users/yunwanxu/git/dw-lc/quick_sort_partition.gif)
+
+#### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+给你一个整数数组 nums，请你将该数组升序排列。
+
+
+
+示例 1：
+
+```
+输入：nums = [5,2,3,1]
+输出：[1,2,3,5]
+```
+
+
+示例 2：
+
+```
+输入：nums = [5,1,1,2,0,0]
+输出0,0,1,1,2,5]
+```
+
+
+提示：
+
+`1 <= nums.length <= 50000`
+`-50000 <= nums[i] <= 50000`
+
+
+
+解法1：
+
+执行用时：596 ms, 在所有 Python 提交中击败了11.13%的用户
+
+内存消耗：21.3 MB, 在所有 Python 提交中击败了30.12%的用户
 
 ```python
 class Solution(object):
@@ -292,15 +353,13 @@ class Solution(object):
         :rtype: List[int]
         """
         from random import randint
-
         def sort(L,left,right):
             if right-left<1:
                 return 
             else:
                 pivot_index = randint(left,right)
                 patition_index = partition(L,left,right,pivot_index)
-                #print(pivot_index,patition_index,L[:patition_index],L[patition_index+1:])
-                sort(L,left,patition_index-1);#print(L,left,patition_index)
+                sort(L,left,patition_index-1)
                 sort(L,patition_index,right)
                 return 
 
@@ -310,23 +369,14 @@ class Solution(object):
                 L[j] = tmp
 
         def partition(L,left,right,pivot_index):
-                #left,right = 0,len(L)-1
                 patition_index   = left
                 swap(L,pivot_index,right)
-               # print('1:',L)
                 pivot = L[right]
-               # print('pivot:',pivot)
                 for i in range(left,right):
-                    #print()
-                    if L[i]<=pivot:
-                        
+                    if L[i]<=pivot:         
                         swap(L,patition_index,i)
                         patition_index+=1
-                #        print('i:',i,L,patition_index)
-                #patition_index += 1
-               # print(L,patition_index,right)
                 swap(L,patition_index,right)
-                #print(f'partition pivot:{pivot},patition_index:{patition_index},List:{L[left:right+1]}')
                 return patition_index
 
         sort(nums,0,len(nums)-1)
