@@ -1,6 +1,6 @@
 
 
-
+# 未归类
 
 ####  [剑指 Offer 45. 把数组排成最小的数](https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/)
 
@@ -382,5 +382,123 @@ class Solution(object):
         sort(nums,0,len(nums)-1)
         return nums
     
+```
+
+
+
+# 计数排序
+
+
+
+#### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+给你一个整数数组 nums，请你将该数组升序排列。
+
+
+
+示例 1：
+
+```
+输入：nums = [5,2,3,1]
+输出：[1,2,3,5]
+```
+
+
+示例 2：
+
+```
+输入：nums = [5,1,1,2,0,0]
+输出0,0,1,1,2,5]
+```
+
+
+提示：
+
+`1 <= nums.length <= 50000`
+`-50000 <= nums[i] <= 50000`
+
+解法1:
+
+执行用时：120 ms, 在所有 Python 提交中击败了88.70%的用户
+
+内存消耗：21.7 MB, 在所有 Python 提交中击败了18.54%的用户
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        max_= max(nums)
+        min_ = min(nums)
+        n = max_ - min_ + 1 
+        L = [0]*n
+        for x in nums:
+            L[x-min_]+=1
+        new_nums = []
+        for i,x in enumerate(L):
+            new_nums+=[min_+i]*x
+        return new_nums
+```
+
+
+
+
+
+# 桶排序
+
+#### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+给你一个整数数组 nums，请你将该数组升序排列。
+
+
+
+示例 1：
+
+```
+输入：nums = [5,2,3,1]
+输出：[1,2,3,5]
+```
+
+
+示例 2：
+
+```
+输入：nums = [5,1,1,2,0,0]
+输出0,0,1,1,2,5]
+```
+
+
+提示：
+
+`1 <= nums.length <= 50000`
+`-50000 <= nums[i] <= 50000`解法1:
+
+执行用时：68 ms, 在所有 Python3 提交中击败了91.46%的用户
+
+内存消耗：21.3 MB, 在所有 Python3 提交中击败了30.88%的用户
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        from math import ceil
+        max_= max(nums)
+        min_ = min(nums)
+        n = max_ - min_ + 1 
+        if len(nums)<=1:
+            return nums
+        bin_size = ceil(n/10)
+        bin_n = ceil(n/bin_size)
+        bucket = {i:[] for i in range(bin_n)}
+        
+        for x in  nums:
+            bucket[int((x-min_)/bin_size)].append(x)
+
+        return [x for i in range(bin_n) for x in sorted(bucket[i])]
 ```
 
