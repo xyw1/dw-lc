@@ -473,7 +473,9 @@ class Solution(object):
 提示：
 
 `1 <= nums.length <= 50000`
-`-50000 <= nums[i] <= 50000`解法1:
+`-50000 <= nums[i] <= 50000`
+
+解法1:
 
 执行用时：68 ms, 在所有 Python3 提交中击败了91.46%的用户
 
@@ -500,5 +502,83 @@ class Solution(object):
             bucket[int((x-min_)/bin_size)].append(x)
 
         return [x for i in range(bin_n) for x in sorted(bucket[i])]
+```
+
+
+
+# 基数排序
+
+#### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+给你一个整数数组 nums，请你将该数组升序排列。
+
+
+
+示例 1：
+
+```
+输入：nums = [5,2,3,1]
+输出：[1,2,3,5]
+```
+
+
+示例 2：
+
+```
+输入：nums = [5,1,1,2,0,0]
+输出0,0,1,1,2,5]
+```
+
+
+提示：
+
+`1 <= nums.length <= 50000`
+`-50000 <= nums[i] <= 50000`
+
+
+
+解法1:
+
+执行用时：408 ms, 在所有 Python3 提交中击败了51.35%的用户
+
+内存消耗：39 MB, 在所有 Python3 提交中击败了5.02%的用户
+
+```python
+class Solution(object):
+    def sortArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        import numpy as np
+        pos = [x for x in nums if x>=0]
+        neg = [x for x in nums if x<0]
+        
+        def radix_sort(L,max_digit):
+            for digit in range(max_digit):
+                if len(L)<=1:
+                    return L
+                
+                radix = {i:[] for i in range(10)}
+                for x in L:
+                    index = int(str(x).zfill(max_digit)[-digit-1])
+                    radix[index].append(x)
+
+                L = [x for i in range(10) for x in radix[i]]
+            return L
+
+        if len(pos)<=1:
+            pass
+        else:
+            max_digit = int(np.log10(max(pos)))+1
+            pos = radix_sort(pos,max_digit)
+        if len(neg)<=1:
+            pass
+        else:
+            neg = [abs(x) for x in neg]
+            max_digit = int(np.log10(max(neg)))+1
+            neg = radix_sort(neg,max_digit)
+            neg = [-1*x for x in reversed(neg)]
+        return neg+pos
 ```
 
