@@ -537,7 +537,7 @@ class Solution(object):
 
 
 
-解法1:
+解法1:	
 
 执行用时：408 ms, 在所有 Python3 提交中击败了51.35%的用户
 
